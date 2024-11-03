@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Reminder App</title>
+  <style>
+    /* Basic CSS styling */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #69603e;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #8f6b6b;
+      width: 300px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .input-container {
+      margin-top: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #34495e;
+    }
+
+    input[type="time"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #3498db;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .message {
+      color: #27ae60;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Medication Reminder</h1>
+  <div class="input-container">
+    <label for="reminder-time">Set Reminder Time:</label>
+    <input type="time" id="reminder-time" required>
+  </div>
+  <button onclick="setReminder()">Set Reminder</button>
+  <div class="message" id="message"></div>
+  <!-- Alarm sound (could be replaced with any other audio file) -->
+  <audio id="alarm-sound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+</div>
+
+<script>
+  function setReminder() {
+    const reminderTime = document.getElementById("reminder-time").value;
+    const message = document.getElementById("message");
+    const alarmSound = document.getElementById("alarm-sound");
+
+    if (reminderTime) {
+      message.innerText = `Reminder set for ${reminderTime}`;
+      
+      // Check reminder time every second
+      const checkTimeInterval = setInterval(() => {
+        const currentTime = new Date().toTimeString().slice(0, 5);
+        if (currentTime === reminderTime) {
+          alarmSound.play();
+          message.innerText = "It's time to take your medication!";
+          clearInterval(checkTimeInterval);
+        }
+      }, 1000);
+    } else {
+      message.innerText = "Please select a time.";
+    }
+  }
+</script>
+
+</body>
+</html>
